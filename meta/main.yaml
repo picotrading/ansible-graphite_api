@@ -1,0 +1,15 @@
+---
+
+galaxy_info:
+  author: graphite-api
+  description: Role which installs graphite-api from RPM packages
+  license: MIT
+  min_ansible_version: 1.7
+  platforms:
+    - name: Redhat
+      versions:
+        - 7
+  categories:
+    - system
+dependencies:
+  - carbon

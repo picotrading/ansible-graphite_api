@@ -1,0 +1,6 @@
+---
+
+- name: Restart graphite-api service
+  service:
+    name: graphite-api
+    state: restarted

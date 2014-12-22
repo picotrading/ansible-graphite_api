@@ -1,0 +1,8 @@
+# Default bind address
+BIND_ADDRESS="0.0.0.0"
+
+# Default port number
+PORT="8888"
+
+# Additional gunicorn command line options
+GUNICORN_OPTIONS=""
