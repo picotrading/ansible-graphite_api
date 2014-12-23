@@ -8,7 +8,7 @@
 
 - name: Install graphite-api RPM package
   yum:
-    pkg: graphite-api
+    name: graphite-api
 
 - name: Configure graphite-api
   template:
