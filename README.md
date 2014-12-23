@@ -1,5 +1,5 @@
-Role name
-=========
+graphite_api
+============
 
 Role which installs graphite-api from RPM packages. It supports Carbon and
 InfluxDB as the storage backend.
