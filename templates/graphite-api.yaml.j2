@@ -4,22 +4,6 @@
 # Any changes will be automatically reverted.
 #
 
-search_index: /var/lib/graphite-api/index
+{% from 'macros/yaml_encode_macro.j2' import yaml_encode with context -%}
 
-finders:
-  - graphite_api.finders.whisper.WhisperFinder
-
-functions:
-  - graphite_api.functions.SeriesFunctions
-  - graphite_api.functions.PieFunctions
-
-whisper:
-  directories:
-    - /var/lib/carbon/whisper
-
-time_zone: {{ graphite_api_timezone }}
-{% if graphite_api_cors %}
-
-allowed_origins:
-  - '{{ graphite_api_cors_hosts }}'
-{% endif %}
+{{ yaml_encode(graphite_api_config) }}
