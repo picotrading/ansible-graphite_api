@@ -7,11 +7,13 @@
   level=0,
   skip_indent=false,
   quotation_mark='"',
-  indention_unit='  ') %}
+  indention_unit='  ',
+  detect_nums=false) %}
 
   {%- if item is mapping %}
+    {#- The item is a dict #}
     {%- for key, value in item.iteritems() | sort -%}
-      {%- if skip_indent == true and loop.first -%}
+      {%- if skip_indent and loop.first -%}
         {{ ' ' }}
       {%- else -%}
         {{ indention_unit * level }}
@@ -27,19 +29,34 @@
            value,
            level=level+1,
            quotation_mark=quotation_mark,
-           indention_unit=indention_unit) }}
+           indention_unit=indention_unit,
+           detect_nums=detect_nums) }}
+    {%- else -%}
+      {{ indention_unit * level + '{ }\n' }}
     {%- endfor %}
 
-  {%- elif item is number -%}
-    {{ ' ' + item | string + "\n" }}
+  {%- elif item is number or
+      (detect_nums and
+      (
+        item | int | string == item or
+        item | float | string == item)) or
+      item == 'true' or
+      item == 'True' or
+      item == 'false' or
+      item == 'False' %}
 
-  {%- elif item is string -%}
+    {#- The item is a number or boolean -#}
+    {{ ' ' ~ item | lower ~ "\n" }}
+
+  {%- elif item is string %}
+    {#- The item is a string -#}
     {{ ' ' +
        quotation_mark +
-       item | replace(quotation_mark, '\\'+quotation_mark) +
+       item | replace(quotation_mark, '\\' + quotation_mark) +
        quotation_mark + "\n" }}
 
-  {%- else -%}
+  {%- else %}
+    {#- The item is a list #}
     {%- for n in item -%}
       {{ indention_unit * level }}-
       {%- if n is not string and
@@ -52,7 +69,8 @@
            level=level+1,
            skip_indent=true,
            quotation_mark=quotation_mark,
-           indention_unit=indention_unit) }}
+           indention_unit=indention_unit,
+           detect_nums=detect_nums) }}
     {%- endfor %}
   {%- endif %}
 {% endmacro %}
