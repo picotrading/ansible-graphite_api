@@ -1,0 +1,56 @@
+diff -u -r ./a/graphite_api/config.py ./b/graphite_api/config.py
+--- ./a/graphite_api/config.py	2014-12-04 02:15:52.000000000 -0600
++++ ./b/graphite_api/config.py	2015-01-06 09:46:44.690078253 -0600
+@@ -1,8 +1,10 @@
+ import logging
+ import os
+ import structlog
++import sys
+ import warnings
+ import yaml
++import traceback
+ 
+ from tzlocal import get_localzone
+ from importlib import import_module
+@@ -13,6 +15,7 @@
+ from .search import IndexSearcher
+ from .storage import Store
+ from . import DEBUG
++from flask.signals import got_request_exception
+ 
+ try:
+     from logging.config import dictConfig
+@@ -73,6 +76,13 @@
+     return getattr(finder, klass)
+ 
+ 
++def log_exception(sender, exception, **extra):
++    logger.error('Exception', exception=exception)
++    exc_info = sys.exc_info()
++    tb = traceback.format_exception(*exc_info)
++    for line in tb:
++        logger.error(line)
++
+ def configure(app):
+     config_file = os.environ.get('GRAPHITE_API_CONFIG',
+                                  '/etc/graphite-api.yaml')
+@@ -87,6 +97,8 @@
+ 
+     configure_logging(config)
+ 
++    got_request_exception.connect(log_exception, app)
++
+     for key, value in list(default_conf.items()):
+         config.setdefault(key, value)
+ 
+diff -u -r ./a/setup.py ./b/setup.py
+--- ./a/setup.py	2014-12-04 02:15:52.000000000 -0600
++++ ./b/setup.py	2015-01-06 09:45:40.219074840 -0600
+@@ -12,6 +12,7 @@
+     'six',
+     'structlog',
+     'tzlocal',
++    'blinker',
+ ]
+ 
+ if sys.version_info < (2, 7):

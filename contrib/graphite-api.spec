@@ -2,10 +2,9 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 %endif
 
-
 Name:           graphite-api
 Summary:        Alternative to Graphite-web
-Version:        1.0.2.9999_20141229
+Version:        1.0.2.9999_20150106
 Release:        1%{?dist}
 
 License:        Apache 2.0
@@ -21,16 +20,16 @@ BuildArch:      noarch
 BuildRequires:  python-devel
 BuildRequires:  python-setuptools
 Requires:       pyparsing
+Requires:       python-blinker
 Requires:       python-cairocffi
 Requires:       python-flask
-Requires:       python-flask-cache
+Requires:       python-gunicorn
 Requires:       python-jinja2
 Requires:       python-six >= 1.8.0
 Requires:       python-structlog
 Requires:       python-tzlocal
 Requires:       pytz
 Requires:       PyYAML
-Requires:       python-gunicorn
 
 %description
 Graphite-API is an alternative to Graphite-web, without any built-in dashboard.
@@ -41,8 +40,8 @@ meant to be consumed by any of the numerous Graphite dashboard applications.
 
 %prep
 %setup -q -n %{name}-master
-# Add exception logging support
-%patch0 -p1
+# Support for logging exceptions
+%patch0 -p2
 
 
 %build
@@ -78,5 +77,8 @@ touch %{buildroot}%{_sharedstatedir}/%{name}/index
 
 
 %changelog
-* Tue Dec 18 2014 Jiri Tyr <jiri.tyr at gmail.com>
+* Tue Jan 6 2015 Jiri Tyr <jiri.tyr at gmail.com> 1.0.2.9999-20150106-1
+- Adding python-blinker into the dependency list.
+
+* Tue Dec 18 2014 Jiri Tyr <jiri.tyr at gmail.com> 1.0.2.9999-20141218-1
 - First build.

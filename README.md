@@ -1,8 +1,7 @@
 graphite_api
 ============
 
-Role which installs graphite-api from RPM packages. It supports Carbon and
-InfluxDB as the storage backend.
+Role which installs graphite-api from RPM packages.
 
 
 Example
@@ -17,8 +16,17 @@ Example
     - carbon
     - graphite-api
 
-# InfluxDB can be used instead of carbon/whisper
-- hosts: myshost2
+# Example how to customize the default configuration
+- hosts: myhost2
+  roles:
+    - carbon
+    - role: graphite_api
+      graphite_api_config:
+      graphite_api_timezone: Europe/London
+      graphite_api_cors_hosts: 192.168.56.105
+
+# Example re-define all configuration
+- hosts: myhost3
   roles:
     - role: graphite_api
       graphite_api_config:
@@ -31,11 +39,11 @@ Example
         cache:
           type: filesystem
           dir: /tmp/graphite-api-cache
-        time_zone: US/Central
+        time_zone: "{{ graphite_api_timezone }}"
         allowed_origins:
           - "{{ graphite_api_cors_hosts }}"
         influxdb:
-           host: "{{ influxdb_server }}"
+           host: influxdb_server
            port: 8086
            user: root
            pass: root
@@ -44,6 +52,10 @@ Example
              - ['', 10]
              - ['high-res-metrics', 1]
 ```
+
+See
+[`graphite_api_influxdb`](https://github.com/picotrading/ansible-graphite_api_inflixdb)
+role if you wish to use InfluxDB as the storage backend.
 
 
 Role variables
@@ -99,4 +111,4 @@ MIT
 Author
 ------
 
-Author Name
+Jiri Tyr
