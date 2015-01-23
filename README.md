@@ -1,7 +1,9 @@
 graphite_api
 ============
 
-Role which installs graphite-api from RPM packages.
+Role which installs graphite-api from RPM packages. You must build the RPM
+packages and place them into a YUM repo (see
+[`yumrepo`](https://github.com/picotrading/ansible-yumrepo) role).
 
 
 Example
