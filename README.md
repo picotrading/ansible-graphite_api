@@ -5,6 +5,14 @@ Role which installs graphite-api from RPM packages. You must build the RPM
 packages and place them into a YUM repo (see
 [`yumrepo`](https://github.com/picotrading/ansible-yumrepo) role).
 
+The configuraton of the role is done in such way that it should not be necessary
+to change the role for any kind of configuration. All can be done either by
+changing role parameters or by declaring completely new configuration as a
+variable. That makes this role absolutely universal. See the examples below for
+more details.
+
+Please report any issues or send PR.
+
 
 Example
 -------
@@ -59,6 +67,16 @@ See
 [`graphite_api_influxdb`](https://github.com/picotrading/ansible-graphite_api_inflixdb)
 role if you wish to use InfluxDB as the storage backend.
 
+This role requires [Jinja2 Encoder
+Macros](https://github.com/picotrading/jinja2-encoder-macros) which must be
+placed into the same directory as the playbook:
+
+```
+$ ls -1 *.yaml
+site.yaml
+$ git clone https://github.com/picotrading/jinja2-encoder-macros.git ./templates/encoder
+```
+
 
 Role variables
 --------------
@@ -102,6 +120,7 @@ Dependencies
 ------------
 
 * [`carbon`](https://github.com/picotrading/ansible-carbon) role (optional)
+* [Jinja2 Encoder Macros](https://github.com/picotrading/jinja2-encoder-macros)
 
 
 License
