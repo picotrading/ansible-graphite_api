@@ -6,4 +6,4 @@
 
 {% from 'templates/encoder/macros/yaml_encode_macro.j2' import yaml_encode with context -%}
 
-{{ yaml_encode(graphite_api_config, convert_nums=true) }}
+{{ yaml_encode(graphite_api_config, convert_bools=true, convert_nums=true) }}
