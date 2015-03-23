@@ -84,6 +84,9 @@ Role variables
 List of variables used by the role:
 
 ```
+# Packege to be installed (you can force a specific version here)
+graphite_api_pkg: graphite-api
+
 # Default CORS (Cross-Origin Resource Sharing) hosts
 graphite_api_cors_hosts: '*'
 

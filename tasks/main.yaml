@@ -8,7 +8,11 @@
 
 - name: Install graphite-api RPM package
   yum:
-    name: graphite-api
+    name: "{{ graphite_api_pkg }}"
+  notify:
+    - Restart graphite-api service
+  tags:
+    - graphite_api_pkg
 
 - name: Configure graphite-api
   template:
@@ -16,6 +20,8 @@
     dest: /etc/graphite-api.yaml
   notify:
     - Restart graphite-api service
+  tags:
+    - graphite_api_config
 
 - name: Configure graphite-api server
   template:
