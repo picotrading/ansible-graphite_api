@@ -4,17 +4,16 @@
 
 Name:           graphite-api
 Summary:        Alternative to Graphite-web
-Version:        1.0.2.9999_20150106
-Release:        2%{?dist}
+Version:        1.0.2.9999_20150323
+Release:        1%{?dist}
 
 License:        Apache 2.0
 URL:            http://graphite-api.readthedocs.org
-Source0:        https://github.com/brutasse/%{name}/archive/master.zip
+Source0:        https://github.com/brutasse/%{name}/archive/graphite-api-master.zip
 Source1:        %{name}.sh
 Source2:        %{name}.service
 Source3:        %{name}.default
 Patch0:         logging_exception.patch
-Patch1:         summarize_fix.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root
 
 BuildArch:      noarch
@@ -43,8 +42,6 @@ meant to be consumed by any of the numerous Graphite dashboard applications.
 %setup -q -n %{name}-master
 # Support for logging exceptions
 %patch0 -p2
-# Fix summarize function
-%patch1 -p2
 
 
 %build
@@ -80,6 +77,10 @@ touch %{buildroot}%{_sharedstatedir}/%{name}/index
 
 
 %changelog
+* Mon Mar 23 2015 Jiri Tyr <jiri.tyr at gmail.com> 1.0.2.9999-20150323-1
+- Removing patch for sumarize function.
+- Renaming the source file.
+
 * Fri Jan 9 2015 Jiri Tyr <jiri.tyr at gmail.com> 1.0.2.9999-20150106-2
 - Adding patch to fix sumarize function.
 
